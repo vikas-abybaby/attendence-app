@@ -15,7 +15,10 @@ class Api {
 
   static final authHeader = {'accept': "application/json"};
 
-  Dio api = Dio(BaseOptions(baseUrl: baseUrl, contentType: "application/json"));
+  Dio api = Dio(BaseOptions(
+    baseUrl: baseUrl,
+    contentType: "application/json",
+  ));
   Future<dynamic> request({
     required String url,
     required RequestMethod method,

@@ -10,7 +10,7 @@ const String tokenKey = "USER_TOKEN";
 Future setUser(dynamic data) async {
   log("message$data");
   try {
-    await preferences.setString(userKey, jsonEncode(data["data"]));
+    await preferences.setString(userKey, jsonEncode(data["user"]));
     await preferences.setString(tokenKey, jsonEncode(data['access_token']));
   } catch (e) {
     log("setUser$e");
@@ -22,8 +22,8 @@ Future getCurrentUser() async {
     var data = await jsonDecode(preferences.getString(userKey) ?? '');
     var token = await jsonDecode(preferences.getString(tokenKey) ?? '');
 
-    // log("message$data");
-    // log("message$token");
+    log("message$data");
+    log("message$token");
 
     if (data != null && token != null) {
       userController.setCurrentUser(UsersModel.fromJson(data), token);

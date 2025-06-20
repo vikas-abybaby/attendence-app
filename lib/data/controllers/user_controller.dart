@@ -22,40 +22,38 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchUsers() async {
-    await UserApi.getUser()
-        .then((onValue) {
-          log("onValue :- $onValue");
-          if (onValue is List) {
-            userList.value = List<UsersModel>.from(
-              onValue.map((e) => UsersModel.fromJson(e)),
-            );
-          }
-        })
-        .catchError((onError) {
-          SnackBarData.topShowSnackBar('Error :- $onError', Colors.redAccent);
-        });
+    await UserApi.getUser().then((onValue) {
+      log("onValue :- $onValue");
+      if (onValue is List) {
+        userList.value = List<UsersModel>.from(
+          onValue.map((e) => UsersModel.fromJson(e)),
+        );
+      }
+    }).catchError((onError) {
+      SnackBarData.topShowSnackBar('Error :- $onError', Colors.redAccent);
+    });
 
     update();
   }
 
   Future<void> loginUser(String email, String password) async {
-    await UserApi.getLogin(email, password)
-        .then((onValue) {
-          if (onValue != null &&
-              onValue['data'] != null &&
-              onValue["access_token"] != null) {
-            currentUser.value = UsersModel.fromJson(onValue['data']);
-            token.value = onValue["access_token"];
-            setUser(onValue);
-            RoutingService().goName(Routes.homeScreen.name);
-          }
-        })
-        .catchError((onError) {
-          SnackBarData.topShowSnackBar(
-            "Server Error: $onError",
-            Colors.redAccent,
-          );
-        });
+    await UserApi.getLogin(email, password).then((onValue) {
+
+      log("onValue$onValue");
+      if (onValue != null &&
+          onValue["user"] != null &&
+          onValue["access_token"] != null) {
+        currentUser.value = UsersModel.fromJson(onValue["user"]);
+        token.value = onValue["access_token"];
+        setUser(onValue);
+        RoutingService().goName(Routes.homeScreen.name);
+      }
+    }).catchError((onError) {
+      SnackBarData.topShowSnackBar(
+        "Server Error: $onError",
+        Colors.redAccent,
+      );
+    });
     // log("Login Response: $response");
 
     // if (response != null && response['token'] != null) {

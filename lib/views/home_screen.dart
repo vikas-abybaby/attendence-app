@@ -1,3 +1,4 @@
+import 'package:attandenceadmin/data/controllers/location_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/components/widget.dart';
@@ -6,8 +7,14 @@ import 'package:attandenceadmin/data/models/home_model.dart';
 import 'package:attandenceadmin/config/Router/routing_service.dart';
 import 'package:attandenceadmin/data/controllers/home_controller.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
 
   @override
