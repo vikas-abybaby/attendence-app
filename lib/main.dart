@@ -38,7 +38,7 @@ void main() async {
 
   preferences = await SharedPreferences.getInstance();
   await getCurrentUser();
-  locationController.startLocationTracking();
+  await locationController.startLocationTracking();
   runApp(const MyApp());
 }
 

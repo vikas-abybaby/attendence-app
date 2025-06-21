@@ -17,6 +17,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
 
+
+
+@override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero,()async{
+      await locationController.updateLatLong();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

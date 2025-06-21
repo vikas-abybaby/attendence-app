@@ -8,6 +8,7 @@ import 'package:attandenceadmin/services/location_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
 LocationController locationController = LocationController();
 
 class LocationController extends GetxController {
@@ -40,7 +41,7 @@ class LocationController extends GetxController {
             placemark?.postalCode,
           ].whereType<String>().join(", ");
 
-          log("message  :- $area");
+          log("message  :- $area $latLong");
         }
         update();
       },
@@ -52,18 +53,14 @@ class LocationController extends GetxController {
   }
 
   Future updateLatLong() async {
-
-
-    log("lat${latLong?.split(",")[0].toString()}");
-    log("Long${latLong?.split(",")[1].toString()}");
     await Api().request(
       url: setUsersActivityUrl,
       method: RequestMethod.post,
       header: Api().commonHeader,
-      
+      showLoader: false,
       payload: {
-        "lat": locationController.latLong?.split(",")[0].toString(),
-        "long": locationController.latLong?.split(",")[1].toString(),
+        "lat": latLong?.split(",")[0].toString(),
+        "long": latLong?.split(",")[1].toString(),
       },
     );
   }
