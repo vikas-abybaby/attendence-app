@@ -1,16 +1,13 @@
+import 'dart:developer';
 import 'dart:ui';
 
-import 'package:attandenceadmin/data/controllers/location_controller.dart';
+import 'package:attandenceadmin/data/controllers/home_controller.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/components/widget.dart';
 import 'package:attandenceadmin/const/color_const.dart';
-import 'package:attandenceadmin/data/models/home_model.dart';
-import 'package:attandenceadmin/config/Router/routing_service.dart';
-import 'package:attandenceadmin/data/controllers/home_controller.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -20,13 +17,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeController homeController = Get.put(HomeController());
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await locationController.updateLatLong();
+      await homeController.attendanceToday();
     });
   }
 
@@ -43,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               width: fullWidth(context),
-              height: fullHeight(context) / 2,
+              height: fullHeight(context) / 2.3,
               color: white,
               alignment: Alignment.topCenter,
               child: SizedBox(
@@ -73,141 +70,195 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Positioned(
               bottom: 0,
-              child: Container(
-                width: fullWidth(context) / 1.1,
-                height: fullHeight(context) / 3,
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 2,
-                        color: grey,
-                        offset: Offset(.5, .5),
-                        spreadRadius: .5)
-                  ],
-                  color: white,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      color: white,
-                      child: barlowBold(
-                        text:
-                            "Permissions enable auto check-in for accurate attendance.",
-                        color: red,
-                        size: 12,
+              child: GetBuilder<HomeController>(builder: (controller) {
+                return Container(
+                  width: fullWidth(context) / 1.1,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 2,
+                          color: grey,
+                          offset: Offset(.5, .5),
+                          spreadRadius: .5)
+                    ],
+                    color: white,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        color: white,
+                        child: barlowBold(
+                          text:
+                              "Permissions enable auto check-in for accurate attendance.",
+                          color: red,
+                          size: 12,
+                        ),
                       ),
-                    ),
-                    const Gap(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        barlowBold(
-                          text: "06:20:20 PM",
-                          color: black,
-                          size: 25,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: darkblue),
-                          onPressed: () {},
-                          child: barlowBold(
-                            text: "Check In",
+                      const Gap(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          barlowBold(
+                            text: "01:54:22",
+                            color: black,
+                            size: 25,
+                          ),
+                          Column(
+                            children: [
+                              if (controller.todayAttendance?.checkIn ==
+                                      false ||
+                                  controller.todayAttendance?.checkOut == false)
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: darkblue,
+                                  ),
+                                  onPressed: () {
+                                    Future.delayed(Duration.zero, () async {
+                                      await controller.attendanceMark(
+                                        lat: '635247.52',
+                                        long: '637665.41',
+                                        location: 'Saran,Bihar,841401',
+                                      );
+                                    });
+                                  },
+                                  child: barlowBold(
+                                    text:
+                                        (controller.todayAttendance?.checkIn ==
+                                                    false &&
+                                                controller.todayAttendance
+                                                        ?.checkOut ==
+                                                    false)
+                                            ? "Check In"
+                                            : ((controller.todayAttendance
+                                                            ?.checkIn ??
+                                                        false) &&
+                                                    controller.todayAttendance
+                                                            ?.checkOut ==
+                                                        false)
+                                                ? "Check Out"
+                                                : "",
+                                    color: white,
+                                    size: 12,
+                                  ),
+                                )
+                              else
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: darkblue,
+                                  ),
+                                  onPressed: () {},
+                                  child: barlowBold(
+                                    text: "Conpleted",
+                                    color: white,
+                                    size: 12,
+                                  ),
+                                )
+                            ],
+                          )
+                        ],
+                      ),
+                      const Gap(10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
                             color: white,
-                            size: 12,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.access_alarm_outlined,
+                                  color: green,
+                                  size: 35,
+                                ),
+                                barlowBold(
+                                  text: formatTimeAmPm(controller
+                                              .todayAttendance?.checkInTime ??
+                                          "") ??
+                                      "",
+                                  color: black,
+                                  size: 12,
+                                ),
+                                barlowRegular(
+                                  text: "Check In",
+                                  color: black,
+                                  size: 10,
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                    const Gap(10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          color: white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.access_alarm_outlined,
-                                color: darkblue,
-                                size: 35,
-                              ),
-                              barlowBold(
-                                text: DateFormat('hh:mm a').format(DateTime.now()),
-                                color: black,
-                                size: 12,
-                              ),
-                              barlowRegular(
-                                text: "Check In",
-                                color: black,
-                                size: 10,
-                              ),
-                            ],
+                          Container(
+                            width: 100,
+                            height: 100,
+                            color: white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.access_alarm_outlined,
+                                  color: red,
+                                  size: 35,
+                                ),
+                                barlowBold(
+                                  text: formatTimeAmPm(controller
+                                              .todayAttendance?.checkOutTime ??
+                                          "") ??
+                                      "",
+                                  color: black,
+                                  size: 12,
+                                ),
+                                barlowRegular(
+                                  text: "Check Out",
+                                  color: black,
+                                  size: 10,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          color: white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.access_alarm_outlined,
-                                color: darkblue,
-                                size: 35,
-                              ),
-                              barlowBold(
-                                text: "06:20 PM",
-                                color: black,
-                                size: 12,
-                              ),
-                              barlowRegular(
-                                text: "Check Out",
-                                color: black,
-                                size: 10,
-                              )
-                            ],
+                          Container(
+                            width: 100,
+                            height: 100,
+                            color: white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.access_alarm_outlined,
+                                  color: deepPurple,
+                                  size: 35,
+                                ),
+                                barlowBold(
+                                  text: getWorkingHours(
+                                      controller.todayAttendance?.checkInTime ??
+                                          "",
+                                      controller
+                                              .todayAttendance?.checkOutTime ??
+                                          ""),
+                                  color: black,
+                                  size: 12,
+                                ),
+                                barlowRegular(
+                                  text: "Working HR's",
+                                  color: black,
+                                  size: 10,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          color: white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.access_alarm_outlined,
-                                color: darkblue,
-                                size: 35,
-                              ),
-                              barlowBold(
-                                text: "9 hr",
-                                color: black,
-                                size: 12,
-                              ),
-                              barlowRegular(
-                                text: "Working HR's",
-                                color: black,
-                                size: 10,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }),
             ),
           ],
         ),

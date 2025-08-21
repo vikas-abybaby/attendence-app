@@ -79,7 +79,10 @@ class Api {
 
       if (response.data["status_code"] == 200 ||
           response.data["status_code"] == 201) {
-        if (showSnackbar ?? true && response.data["message"] != null) {
+        if (showSnackbar ??
+            true &&
+                response.data["message"] != null &&
+                response.data["message"] != "") {
           SnackBarData.topShowSnackBar(
             response.data["message"].toString(),
             Colors.black,

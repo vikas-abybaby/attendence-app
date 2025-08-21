@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:attandenceadmin/data/controllers/home_controller.dart';
 import 'package:attandenceadmin/data/controllers/location_controller.dart';
 import 'package:attandenceadmin/data/repository/api.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
@@ -39,6 +40,9 @@ void main() async {
   preferences = await SharedPreferences.getInstance();
   await getCurrentUser();
   await locationController.startLocationTracking();
+
+
+  Get.put(HomeController());
   runApp(const MyApp());
 }
 
