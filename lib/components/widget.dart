@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/const/color_const.dart';
 import 'package:intl/intl.dart';
@@ -97,4 +99,13 @@ String getWorkingHours(String? checkIn, String? checkOut) {
   } catch (e) {
     return "Invalid";
   }
+}
+Color getRandomColor() {
+  final Random random = Random();
+  return Color.fromARGB(
+    255, // opacity (255 = fully visible)
+    random.nextInt(256), // red 0–255
+    random.nextInt(256), // green 0–255
+    random.nextInt(256), // blue 0–255
+  );
 }

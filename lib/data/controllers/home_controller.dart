@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:attandenceadmin/components/snackbar.dart';
 import 'package:attandenceadmin/data/models/home_model.dart';
 import 'package:attandenceadmin/data/repository/Server/home_api.dart';
+import 'package:intl/intl.dart';
 
 HomeController homeController = HomeController();
 
@@ -31,7 +32,7 @@ class HomeController extends GetxController {
   }) async {
     await HomeApi.attendanceMark(lat: lat, long: long, location: location)
         .then((onValue) async {
-      if (onValue is List) {
+      if (onValue is Map) {
         await attendanceToday();
       }
     }).catchError((onError) {
@@ -58,5 +59,16 @@ class HomeController extends GetxController {
       );
     });
     update();
+  }
+
+  var time = "".obs;
+
+  void updateTime() {
+    Future.delayed(const Duration(seconds: 1), () {
+      final nowUtc = DateTime.now().toUtc();
+      final indiaTime = nowUtc.add(const Duration(hours: 5, minutes: 30));
+      time.value = DateFormat("HH:mm:ss").format(indiaTime);
+      updateTime();
+    });
   }
 }

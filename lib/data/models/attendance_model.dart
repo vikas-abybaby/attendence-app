@@ -8,6 +8,9 @@ class Attendance {
   String? checkOutTime;
   int? id;
   int? userId;
+  int? monthPresent;
+  int? monthLate;
+  int? monthAbsent;
   String? date;
   String? checkInTime;
   String? checkInLocation;
@@ -23,6 +26,9 @@ class Attendance {
       this.checkOutTime,
       this.id,
       this.userId,
+      this.monthPresent,
+      this.monthLate,
+      this.monthAbsent,
       this.date,
       this.checkInTime,
       this.checkInLocation,
@@ -38,6 +44,9 @@ class Attendance {
     checkOutTime = json['checkOutTime'];
     id = json['id'];
     userId = json['userId'];
+    monthPresent = json['month_present'];
+    monthLate = json['month_late'];
+    monthAbsent = json['month_absent'];
     date = json['date'];
     checkInTime = json['checkInTime'];
     checkInLocation = json['checkInLocation'];
@@ -60,6 +69,9 @@ class Attendance {
     data['checkOutTime'] = checkOutTime;
     data['id'] = id;
     data['userId'] = userId;
+    data['month_present'] = monthPresent;
+    data['month_late'] = monthLate;
+    data['month_absent'] = monthAbsent;
     data['date'] = date;
     data['checkInTime'] = checkInTime;
     data['checkInLocation'] = checkInLocation;

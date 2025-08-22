@@ -10,6 +10,7 @@ Color black = Colors.black;
 Color deepPurple = Colors.deepPurple;
 Color grey = Colors.grey;
 Color green = Colors.green;
+Color yellow = Colors.yellow;
 Color red = Colors.red;
 Color textColor = Colors.white.withOpacity(0.3);
 
