@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:attandenceadmin/const/color_const.dart';
 import 'package:attandenceadmin/components/widget.dart';
 import 'package:attandenceadmin/data/models/user_model.dart';
-import 'package:attandenceadmin/data/controllers/user_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/user_controller.dart';
 
 class UserScreen extends StatelessWidget {
   UserScreen({super.key});

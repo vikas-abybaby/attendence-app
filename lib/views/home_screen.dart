@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:attandenceadmin/data/controllers/home_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final LocationController locationController =
+        Get.find<LocationController>();
     return Scaffold(
       body: GetBuilder<HomeController>(builder: (controller) {
         return Container(
@@ -90,82 +93,124 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Column(
                         children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            color: white,
-                            child: barlowBold(
-                              text:
-                                  "Permissions enable auto check-in for accurate attendance.",
-                              color: red,
-                              size: 12,
-                            ),
-                          ),
                           const Gap(20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Obx(
-                                () => barlowBold(
-                                  text: controller.time.string,
-                                  color: black,
-                                  size: 25,
+                              Center(
+                                child: Obx(
+                                  () => barlowBold(
+                                      text: controller.time.string,
+                                      color: black,
+                                      size: 25,
+                                      textAlign: TextAlign.center),
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  if (controller.todayAttendance?.checkIn ==
+                              if ((controller.todayAttendance?.checkIn ==
                                           false ||
                                       controller.todayAttendance?.checkOut ==
-                                          false)
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: darkblue,
+                                          false) &&
+                                  controller.todayAttendance?.absent == false)
+                                Row(
+                                  spacing: 5,
+                                  children: [
+                                    if ((controller.todayAttendance?.absent ==
+                                            false) &&
+                                        (controller.todayAttendance?.checkOut ==
+                                            false))
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: darkblue,
+                                        ),
+                                        onPressed: () {
+                                          Future.delayed(Duration.zero,
+                                              () async {
+                                            await controller.attendanceMark(
+                                              lat:
+                                                  (locationController.latLong ??
+                                                          "")
+                                                      .split(",")[0],
+                                              long:
+                                                  (locationController.latLong ??
+                                                          "")
+                                                      .split(",")[1],
+                                              location:
+                                                  (locationController.area ??
+                                                      ""),
+                                            );
+                                          });
+                                        },
+                                        child: barlowBold(
+                                          text: (controller.todayAttendance
+                                                          ?.checkIn ==
+                                                      false &&
+                                                  controller.todayAttendance
+                                                          ?.checkOut ==
+                                                      false)
+                                              ? "Check In"
+                                              : ((controller.todayAttendance
+                                                              ?.checkIn ??
+                                                          false) &&
+                                                      controller.todayAttendance
+                                                              ?.checkOut ==
+                                                          false)
+                                                  ? "Check Out"
+                                                  : "",
+                                          color: white,
+                                          size: 12,
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        Future.delayed(Duration.zero, () async {
-                                          await controller.attendanceMark(
-                                            lat: '635247.52',
-                                            long: '637665.41',
-                                            location: 'Saran,Bihar,841401',
-                                          );
-                                        });
-                                      },
-                                      child: barlowBold(
-                                        text: (controller.todayAttendance
-                                                        ?.checkIn ==
-                                                    false &&
-                                                controller.todayAttendance
-                                                        ?.checkOut ==
-                                                    false)
-                                            ? "Check In"
-                                            : ((controller.todayAttendance
-                                                            ?.checkIn ??
-                                                        false) &&
-                                                    controller.todayAttendance
-                                                            ?.checkOut ==
-                                                        false)
-                                                ? "Check Out"
-                                                : "",
-                                        color: white,
-                                        size: 12,
+                                    if ((controller.todayAttendance?.checkIn ==
+                                            false) &&
+                                        (controller.todayAttendance?.absent ==
+                                            false))
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: red,
+                                        ),
+                                        onPressed: () {
+                                          Future.delayed(Duration.zero,
+                                              () async {
+                                            await controller.attendanceMark(
+                                              lat:
+                                                  (locationController.latLong ??
+                                                          "")
+                                                      .split(",")[0],
+                                              long:
+                                                  (locationController.latLong ??
+                                                          "")
+                                                      .split(",")[1],
+                                              location:
+                                                  (locationController.area ??
+                                                      ""),
+                                              absent: 1,
+                                            );
+                                          });
+                                        },
+                                        child: barlowBold(
+                                          text: "Absent",
+                                          color: white,
+                                          size: 12,
+                                        ),
                                       ),
-                                    )
-                                  else
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: darkblue,
-                                      ),
-                                      onPressed: () {},
-                                      child: barlowBold(
-                                        text: "Conpleted",
-                                        color: white,
-                                        size: 12,
-                                      ),
-                                    )
-                                ],
-                              )
+                                  ],
+                                ),
                             ],
                           ),
+                          if ((controller.todayAttendance?.checkOut ?? false) ||
+                              (controller.todayAttendance?.absent ?? false))
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              color: white,
+                              alignment: Alignment.center,
+                              child: barlowBold(
+                                text:
+                                    "You have successfully completed today’s attendance.",
+                                color: green,
+                                size: 15,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           const Gap(10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -307,14 +352,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               alignment: Alignment.center,
                               child: barlowBold(
-                                text: (controller.todayAttendance?.monthPresent)
+                                text: (controller
+                                        .todayAttendance?.monthWithoutLate)
                                     .toString(),
                                 size: 50,
                                 color: black,
                               ),
                             ),
                             barlowBold(
-                              text: "Present",
+                              text: "OnTime",
                               size: 15,
                               color: black,
                             ),

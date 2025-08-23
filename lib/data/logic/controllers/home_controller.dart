@@ -25,12 +25,13 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<void> attendanceMark({
-    required String lat,
-    required String long,
-    required String location,
-  }) async {
-    await HomeApi.attendanceMark(lat: lat, long: long, location: location)
+  Future<void> attendanceMark(
+      {required String lat,
+      required String long,
+      required String location,
+      int? absent}) async {
+    await HomeApi.attendanceMark(
+            lat: lat, long: long, location: location, absent: absent)
         .then((onValue) async {
       if (onValue is Map) {
         await attendanceToday();

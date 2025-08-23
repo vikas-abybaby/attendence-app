@@ -1,14 +1,17 @@
 import 'dart:convert';
 
 class Attendance {
+  int? id;
+  int? userId;
   bool? late;
   bool? checkIn;
   bool? checkOut;
+  bool? absent;
   String? checkOutLocation;
+  String? absentLocation;
   String? checkOutTime;
-  int? id;
-  int? userId;
-  int? monthPresent;
+  String? absentTime;
+  int? monthWithoutLate;
   int? monthLate;
   int? monthAbsent;
   String? date;
@@ -26,7 +29,10 @@ class Attendance {
       this.checkOutTime,
       this.id,
       this.userId,
-      this.monthPresent,
+      this.absent,
+      this.absentLocation,
+      this.absentTime,
+      this.monthWithoutLate,
       this.monthLate,
       this.monthAbsent,
       this.date,
@@ -44,7 +50,10 @@ class Attendance {
     checkOutTime = json['checkOutTime'];
     id = json['id'];
     userId = json['userId'];
-    monthPresent = json['month_present'];
+    monthWithoutLate = json['month_without_late'];
+    absent = json['absent'];
+    absentTime = json['absentTime'];
+    absentLocation = json['absentLocation'];
     monthLate = json['month_late'];
     monthAbsent = json['month_absent'];
     date = json['date'];
@@ -69,7 +78,10 @@ class Attendance {
     data['checkOutTime'] = checkOutTime;
     data['id'] = id;
     data['userId'] = userId;
-    data['month_present'] = monthPresent;
+    data['absent'] = absent;
+    data['absentLocation'] = absentLocation;
+    data['absentTime'] = absentTime;
+    data['month_without_late'] = monthWithoutLate;
     data['month_late'] = monthLate;
     data['month_absent'] = monthAbsent;
     data['date'] = date;

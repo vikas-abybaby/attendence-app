@@ -15,7 +15,8 @@ class HomeApi {
   static Future<dynamic> attendanceMark(
       {required String lat,
       required String long,
-      required String location}) async {
+      required String location,
+      int? absent}) async {
     return Api().request(
       header: Api().commonHeader,
       method: RequestMethod.post,
@@ -24,6 +25,7 @@ class HomeApi {
         "location": location,
         "lat": lat,
         "long": long,
+        if (absent != null) "absent": absent
       },
     );
   }
@@ -33,7 +35,6 @@ class HomeApi {
       header: Api().commonHeader,
       method: RequestMethod.get,
       url: attendanceTodayUrl,
-      
     );
   }
 }
