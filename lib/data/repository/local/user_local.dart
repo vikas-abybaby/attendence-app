@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:attandenceadmin/main.dart';
 import 'package:attandenceadmin/data/models/user_model.dart';
-import 'package:attandenceadmin/data/controllers/user_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/user_controller.dart';
 
 const String userKey = "CURRENT_USER";
 const String tokenKey = "USER_TOKEN";

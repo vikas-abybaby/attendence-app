@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Color appBarBg = const Color(0xFF232227);
 Color white = const Color(0xFFFFFFFF);
 Color darkgreen = const Color(0xFF046B3E);
+Color darkblue = const Color(0xFF2463EB);
 
 Color chatColor = Colors.black.withOpacity(0.2);
 Color black = Colors.black;

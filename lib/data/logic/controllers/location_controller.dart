@@ -6,7 +6,6 @@ import 'package:attandenceadmin/data/repository/api.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
 import 'package:attandenceadmin/services/location_service.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-// controllers/location_controller.dart
 
 LocationController locationController = LocationController();
 

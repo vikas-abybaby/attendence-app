@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:attandenceadmin/data/controllers/user_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/user_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

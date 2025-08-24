@@ -6,7 +6,7 @@ import 'package:attandenceadmin/components/snackbar.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
 import 'package:attandenceadmin/components/custom_loading.dart';
 import 'package:attandenceadmin/config/Router/routing_service.dart';
-import 'package:attandenceadmin/data/controllers/user_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/user_controller.dart';
 
 class Api {
   final commonHeader = {
@@ -79,7 +79,10 @@ class Api {
 
       if (response.data["status_code"] == 200 ||
           response.data["status_code"] == 201) {
-        if (showSnackbar ?? true && response.data["message"] != null) {
+        if (showSnackbar ??
+            true &&
+                response.data["message"] != null &&
+                response.data["message"] != "") {
           SnackBarData.topShowSnackBar(
             response.data["message"].toString(),
             Colors.black,

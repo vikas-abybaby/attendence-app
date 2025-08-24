@@ -1,6 +1,8 @@
 import 'dart:developer';
 
-import 'package:attandenceadmin/data/controllers/location_controller.dart';
+import 'package:attandenceadmin/data/logic/bindings/controller_binding.dart';
+import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
 import 'package:attandenceadmin/data/repository/api.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
 import 'package:get/get.dart';
@@ -38,7 +40,6 @@ void main() async {
 
   preferences = await SharedPreferences.getInstance();
   await getCurrentUser();
-  await locationController.startLocationTracking();
   runApp(const MyApp());
 }
 
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
       routeInformationParser: router.routeInformationParser,
       routeInformationProvider: router.routeInformationProvider,
       debugShowCheckedModeBanner: false,
+      initialBinding: ControllerBinding(),
     );
   }
 }

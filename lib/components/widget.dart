@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/const/color_const.dart';
+import 'package:intl/intl.dart';
 
 ///Vertical Space
 Widget heightSpace(double h) {
@@ -66,5 +69,44 @@ Widget barlowBold(
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
     ),
+  );
+}
+
+String? formatTimeAmPm(String? time) {
+  if (time == null || time.isEmpty) return "N/A";
+
+  try {
+    final parsedTime = DateFormat("HH:mm").parse(time);
+    return DateFormat('hh:mm a').format(parsedTime);
+  } catch (e) {
+    return "N/A";
+  }
+}
+String getWorkingHours(String? checkIn, String? checkOut) {
+  try {
+    if (checkIn == null || checkOut == null || checkIn.isEmpty || checkOut.isEmpty) {
+      return "N/A";
+    }
+
+    final checkInTime = DateFormat("HH:mm").parse(checkIn);
+    final checkOutTime = DateFormat("HH:mm").parse(checkOut);
+
+
+    final duration = checkOutTime.difference(checkInTime);
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes % 60;
+
+    return "${hours}h ${minutes}m";
+  } catch (e) {
+    return "Invalid";
+  }
+}
+Color getRandomColor() {
+  final Random random = Random();
+  return Color.fromARGB(
+    255, // opacity (255 = fully visible)
+    random.nextInt(256), // red 0–255
+    random.nextInt(256), // green 0–255
+    random.nextInt(256), // blue 0–255
   );
 }
