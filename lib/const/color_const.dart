@@ -8,10 +8,11 @@ Color darkblue = const Color(0xFF2463EB);
 Color chatColor = Colors.black.withOpacity(0.2);
 Color black = Colors.black;
 Color deepPurple = Colors.deepPurple;
+Color blue = const Color.fromARGB(255, 0, 102, 255);
 Color grey = Colors.grey;
 Color green = Colors.green;
-Color yellow = Colors.yellow;
 Color red = Colors.red;
+Color yellow = const Color(0xFFD5B60A);
 Color textColor = Colors.white.withOpacity(0.3);
 
 /// status color

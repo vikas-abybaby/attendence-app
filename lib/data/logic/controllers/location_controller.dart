@@ -1,12 +1,10 @@
-// controllers/location_controller.dart
-
 import 'dart:async';
 import 'dart:developer';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:attandenceadmin/data/repository/api.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
 import 'package:attandenceadmin/services/location_service.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 LocationController locationController = LocationController();
@@ -32,13 +30,16 @@ class LocationController extends GetxController {
 
         if (placemark != null) {
           latLong = '${pos.latitude},${pos.longitude}';
+          String? safeValue(String? value) =>
+              (value != null && value.isNotEmpty) ? value : null;
+
           area = [
-            placemark?.name,
-            placemark?.subLocality,
-            placemark?.locality,
-            placemark?.administrativeArea,
-            placemark?.country,
-            placemark?.postalCode,
+            safeValue(placemark?.name),
+            safeValue(placemark?.subLocality),
+            safeValue(placemark?.locality),
+            safeValue(placemark?.administrativeArea),
+            safeValue(placemark?.country),
+            safeValue(placemark?.postalCode),
           ].whereType<String>().join(", ");
 
           log("message  :- $area $latLong");
