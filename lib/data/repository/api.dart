@@ -89,6 +89,8 @@ class Api {
       }
       return null;
     } on DioException catch (e) {
+      log("message${e.message.toString()}");
+
       if (showLoader ?? true) {
         await RoutingService().goBack();
       }
@@ -98,7 +100,6 @@ class Api {
           Colors.redAccent,
         );
       } else {
-        log("message${e.message.toString()}");
         SnackBarData.topShowSnackBar(
           'Server error :- ${e.message.toString()}',
           Colors.redAccent,

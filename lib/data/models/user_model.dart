@@ -1,8 +1,8 @@
 class UsersModel {
   String? userId;
   String? name;
+  String? designation;
   String? email;
-  String? password;
   String? dob;
   int? age;
   String? gender;
@@ -25,7 +25,7 @@ class UsersModel {
     this.userId,
     this.name,
     this.email,
-    this.password,
+    this.designation,
     this.dob,
     this.age,
     this.gender,
@@ -49,8 +49,8 @@ class UsersModel {
     userId = json['_id'];
     name = json['name'];
     email = json['email'];
-    password = json['password'];
     dob = json['dob'];
+    designation = json['designation'];
     age = json['age'];
     gender = json['gender'];
     role = json['role'];
@@ -74,8 +74,8 @@ class UsersModel {
     data['_id'] = userId;
     data['name'] = name;
     data['email'] = email;
-    data['password'] = password;
     data['dob'] = dob;
+    data['designation'] = designation;
     data['age'] = age;
     data['gender'] = gender;
     data['role'] = role;

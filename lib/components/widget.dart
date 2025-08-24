@@ -45,14 +45,14 @@ Widget barlowRegular({
 }
 
 /// text style
-Widget barlowBold({
-  String text = "",
-  double size = 10,
-  Color? color,
-  int? maxLine,
-  TextAlign? textAlign,
-  TextOverflow? overflow,
-}) {
+Widget barlowBold(
+    {String text = "",
+    double size = 10,
+    Color? color,
+    int? maxLine,
+    TextAlign? textAlign,
+    TextOverflow? overflow,
+    double? letterSpacing}) {
   return Text(
     text,
     overflow: overflow ?? TextOverflow.ellipsis,
@@ -62,6 +62,7 @@ Widget barlowBold({
       color: color ?? black.withOpacity(0.8),
       fontSize: size,
       fontFamily: "Barlow",
+      letterSpacing: letterSpacing,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
     ),

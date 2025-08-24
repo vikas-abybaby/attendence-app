@@ -10,8 +10,12 @@ const String tokenKey = "USER_TOKEN";
 Future setUser(dynamic data) async {
   log("message$data");
   try {
-    await preferences.setString(userKey, jsonEncode(data["user"]));
-    await preferences.setString(tokenKey, jsonEncode(data['access_token']));
+    if (data["user"] != null) {
+      await preferences.setString(userKey, jsonEncode(data["user"]));
+    }
+    if (data['access_token'] != null) {
+      await preferences.setString(tokenKey, jsonEncode(data['access_token']));
+    }
   } catch (e) {
     log("setUser$e");
   }
