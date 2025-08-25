@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
 import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
+import 'package:attandenceadmin/views/chat_view.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -451,118 +452,132 @@ class _HomeScreenState extends State<HomeScreen> {
                         spacing: 10,
                         children: List.generate(
                           5,
-                          (index) => Container(
-                            decoration: BoxDecoration(
-                              color: getRandomColor().withOpacity(.5),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    barlowRegular(
-                                      text: "12:20 PM",
-                                      color: black,
-                                      size: 15,
-                                    ),
-                                    barlowRegular(
-                                      text: " - ",
-                                      color: black,
-                                      size: 15,
-                                    ),
-                                    barlowRegular(
-                                      text: "01:20 PM",
-                                      color: black,
-                                      size: 15,
-                                    ),
-                                  ],
+                          (index) => InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatView(
+                                    roomId: "room1",
+                                    userId: "u1",
+                                    name: "Aby",
+                                  ),
                                 ),
-                                barlowBold(
-                                  text: "Pms Setup Meating",
-                                  color: black,
-                                  size: 20,
-                                ),
-                                barlowRegular(
-                                  text: "12 Members Joined",
-                                  color: black,
-                                  size: 15,
-                                ),
-                                const Gap(20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          width: fullWidth(context) / 5,
-                                          padding: EdgeInsets.all(1),
-                                          alignment: Alignment.centerLeft,
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: black,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 35,
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: green,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 20,
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: yellow,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 5,
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: red,
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: barlowBold(
-                                                text: "3+",
-                                                color: white,
-                                                size: 15),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const Gap(20),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: getRandomColor(),
-                                      ),
-                                      onPressed: () {},
-                                      child: barlowRegular(
-                                        text: "Join",
-                                        color: white,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: getRandomColor().withOpacity(.5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      barlowRegular(
+                                        text: "12:20 PM",
+                                        color: black,
                                         size: 15,
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      barlowRegular(
+                                        text: " - ",
+                                        color: black,
+                                        size: 15,
+                                      ),
+                                      barlowRegular(
+                                        text: "01:20 PM",
+                                        color: black,
+                                        size: 15,
+                                      ),
+                                    ],
+                                  ),
+                                  barlowBold(
+                                    text: "Pms Setup Meating",
+                                    color: black,
+                                    size: 20,
+                                  ),
+                                  barlowRegular(
+                                    text: "12 Members Joined",
+                                    color: black,
+                                    size: 15,
+                                  ),
+                                  const Gap(20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            width: fullWidth(context) / 5,
+                                            padding: EdgeInsets.all(1),
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: black,
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 35,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: green,
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 20,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: yellow,
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 5,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: red,
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: barlowBold(
+                                                  text: "3+",
+                                                  color: white,
+                                                  size: 15),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const Gap(20),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: getRandomColor(),
+                                        ),
+                                        onPressed: () {},
+                                        child: barlowRegular(
+                                          text: "Join",
+                                          color: white,
+                                          size: 15,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         )),

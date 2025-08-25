@@ -5,6 +5,7 @@ import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
 import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
 import 'package:attandenceadmin/data/repository/api.dart';
 import 'package:attandenceadmin/data/repository/api_urls.dart';
+import 'package:attandenceadmin/services/socket_service.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +27,7 @@ late SharedPreferences preferences;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  SocketService().connect("http://192.168.0.104:8001");
   await Workmanager().initialize(
     callbackDispatcher,
     isInDebugMode: true,
