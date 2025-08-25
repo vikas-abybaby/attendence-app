@@ -1,17 +1,13 @@
-import 'dart:ui';
-import 'dart:developer';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/components/widget.dart';
 import 'package:attandenceadmin/const/color_const.dart';
-import 'package:attandenceadmin/data/controllers/user_controller.dart';
 import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
 import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
