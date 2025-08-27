@@ -14,30 +14,31 @@ import 'package:attandenceadmin/config/Router/page_router.dart';
 import 'package:attandenceadmin/data/repository/local/user_local.dart';
 import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    log("✅ Background task triggered: $task ${DateTime.now().toString()}");
-    await locationController.updateLatLong();
-    return Future.value(true);
-  });
-}
+// @pragma('vm:entry-point')
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     log("✅ Background task triggered: $task ${DateTime.now().toString()}");
+//     await locationController.updateLatLong();
+//     return Future.value(true);
+//   });
+// }
 
 late SharedPreferences preferences;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SocketService().connect("http://192.168.0.104:8001");
-  await Workmanager().initialize(
-    callbackDispatcher,
-    isInDebugMode: true,
-  );
 
-  await Workmanager().registerPeriodicTask(
-    "uniqueTaskName",
-    "fetchLocation",
-    frequency: Duration(minutes: 15),
-  );
+
+  // await Workmanager().initialize(
+  //   callbackDispatcher,
+  //   isInDebugMode: true,
+  // );
+
+  // await Workmanager().registerPeriodicTask(
+  //   "uniqueTaskName",
+  //   "fetchLocation",
+  //   frequency: Duration(minutes: 15),
+  // );
 
   preferences = await SharedPreferences.getInstance();
   await getCurrentUser();

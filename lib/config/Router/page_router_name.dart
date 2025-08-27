@@ -25,4 +25,8 @@ class Routes {
     name: "user_screen",
     path: "/user_screen",
   );
+  static const PageRouterName groupChatScreen = PageRouterName(
+    name: "group_chat_screen",
+    path: "/group_chat_screen/:room_id",
+  );
 }

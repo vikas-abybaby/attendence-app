@@ -19,4 +19,12 @@ class UserApi {
       payload: {"email": email, "password": password},
     );
   }
+
+  static Future<dynamic> getProfile() async {
+    return Api().request(
+      header: Api().commonHeader,
+      method: RequestMethod.get,
+      url: getProfileUrl,
+    );
+  }
 }

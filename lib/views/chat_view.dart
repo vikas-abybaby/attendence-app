@@ -1,28 +1,37 @@
 import 'package:attandenceadmin/data/logic/controllers/chat_controller.dart';
+import 'package:attandenceadmin/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChatView extends StatelessWidget {
-  final String roomId;
-  final String userId;
-  final String name;
-  final ChatController controller = Get.put(ChatController());
+class GroupChatScreen extends StatefulWidget {
+  final int roomId;
 
-  ChatView({
+  const GroupChatScreen({
     super.key,
     required this.roomId,
-    required this.userId,
-    required this.name,
   });
+
+  @override
+  State<GroupChatScreen> createState() => _GroupChatScreenState();
+}
+
+class _GroupChatScreenState extends State<GroupChatScreen> {
+  final ChatController controller = Get.put(ChatController());
 
   final TextEditingController msgCtrl = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    controller.initSocket(roomId, userId, name);
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      controller.joinRoom(widget.roomId.toString());
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Room $roomId")),
+      appBar: AppBar(title: Text("Room ${widget.roomId}")),
       body: Column(
         children: [
           Expanded(
@@ -42,15 +51,15 @@ class ChatView extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: TextField(controller: msgCtrl),
+                child: TextFormField(controller: msgCtrl),
               ),
               IconButton(
                 icon: const Icon(Icons.send),
                 onPressed: () {
-                  if (msgCtrl.text.isNotEmpty) {
-                    controller.sendMessage(roomId, msgCtrl.text, userId);
-                    msgCtrl.clear();
-                  }
+                  controller.sendMessage(
+                    widget.roomId.toString(),
+                    msgCtrl.text,
+                  );
                 },
               )
             ],

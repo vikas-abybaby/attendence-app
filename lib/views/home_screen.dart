@@ -1,18 +1,23 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
-
+import 'package:attandenceadmin/components/custom_cached_network_image.dart';
+import 'package:attandenceadmin/config/Router/page_router_name.dart';
+import 'package:attandenceadmin/config/Router/routing_service.dart';
 import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
 import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
+import 'package:attandenceadmin/data/models/room_model.dart';
 import 'package:attandenceadmin/views/chat_view.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:attandenceadmin/components/widget.dart';
 import 'package:attandenceadmin/const/color_const.dart';
-import 'package:intl/intl.dart';
+import 'package:attandenceadmin/data/logic/controllers/home_controller.dart';
+import 'package:attandenceadmin/data/logic/controllers/location_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -20,7 +25,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.find<HomeController>();
-
   @override
   void initState() {
     super.initState();
@@ -41,7 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
           height: fullHeight(context),
           alignment: Alignment.topCenter,
           color: white,
-          child: Column(
+          child: ListView(
+            padding: EdgeInsets.zero,
             children: [
               Stack(
                 alignment: Alignment.bottomCenter,
@@ -431,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Gap(20),
                       Expanded(
                         child: barlowBold(
-                          text: "Today Meetings",
+                          text: "Groups",
                           size: 18,
                           color: black,
                         ),
@@ -450,20 +455,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                         spacing: 10,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: List.generate(
-                          5,
-                          (index) => InkWell(
+                            (controller.todayAttendance?.group ?? []).length,
+                            (index) {
+                          GroupModel ds =
+                              (controller.todayAttendance?.group ?? [])[index];
+                          return InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatView(
-                                    roomId: "room1",
-                                    userId: "u1",
-                                    name: "Aby",
-                                  ),
-                                ),
-                              );
+                              RoutingService().pushNamed(
+                                  Routes.groupChatScreen.name,
+                                  pathParameters: {
+                                    "room_id": jsonEncode((ds.id).toString())
+                                  });
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -473,28 +478,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      barlowRegular(
-                                        text: "12:20 PM",
-                                        color: black,
-                                        size: 15,
-                                      ),
-                                      barlowRegular(
-                                        text: " - ",
-                                        color: black,
-                                        size: 15,
-                                      ),
-                                      barlowRegular(
-                                        text: "01:20 PM",
-                                        color: black,
-                                        size: 15,
-                                      ),
-                                    ],
+                                  CustomCachedNetworkImage(
+                                    imageUrl: ds.avatarUrl ?? "",
+                                    width: fullWidth(context) / 2,
+                                    height: 200,
                                   ),
+                                  const Gap(10),
                                   barlowBold(
-                                    text: "Pms Setup Meating",
+                                    text: ds.name ?? "",
                                     color: black,
                                     size: 20,
                                   ),
@@ -505,7 +498,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   const Gap(20),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Stack(
                                         children: [
@@ -562,7 +556,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           )
                                         ],
                                       ),
-                                      const Gap(20),
+                                      const Gap(50),
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: getRandomColor(),
@@ -579,8 +573,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
-                          ),
-                        )),
+                          );
+                        })),
                   )
                 ],
               )

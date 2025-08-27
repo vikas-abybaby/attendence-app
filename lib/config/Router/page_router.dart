@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:attandenceadmin/views/chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:attandenceadmin/views/home_screen.dart';
@@ -39,6 +41,15 @@ class PageRouter {
         path: Routes.userScreen.path,
         name: Routes.userScreen.name,
         builder: (BuildContext context, GoRouterState state) => UserScreen(),
+      ),
+      GoRoute(
+        path: Routes.groupChatScreen.path,
+        name: Routes.groupChatScreen.name,
+        builder: (BuildContext context, GoRouterState state) => GroupChatScreen(
+          roomId: int.tryParse(
+                  jsonDecode(state.pathParameters['room_id']!).toString()) ??
+              0,
+        ),
       ),
     ],
   );

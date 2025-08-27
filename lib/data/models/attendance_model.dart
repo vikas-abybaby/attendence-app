@@ -1,4 +1,5 @@
-import 'dart:convert';
+
+import 'package:attandenceadmin/data/models/room_model.dart';
 
 class Attendance {
   int? id;
@@ -20,27 +21,30 @@ class Attendance {
   List<ActivityLatLong>? activityLatLong;
   String? updatedAt;
   String? createdAt;
+  List<GroupModel>? group;
 
-  Attendance(
-      {this.late,
-      this.checkIn,
-      this.checkOut,
-      this.checkOutLocation,
-      this.checkOutTime,
-      this.id,
-      this.userId,
-      this.absent,
-      this.absentLocation,
-      this.absentTime,
-      this.monthWithoutLate,
-      this.monthLate,
-      this.monthAbsent,
-      this.date,
-      this.checkInTime,
-      this.checkInLocation,
-      this.activityLatLong,
-      this.updatedAt,
-      this.createdAt});
+  Attendance({
+    this.late,
+    this.checkIn,
+    this.checkOut,
+    this.checkOutLocation,
+    this.checkOutTime,
+    this.id,
+    this.userId,
+    this.absent,
+    this.absentLocation,
+    this.absentTime,
+    this.monthWithoutLate,
+    this.monthLate,
+    this.monthAbsent,
+    this.date,
+    this.checkInTime,
+    this.checkInLocation,
+    this.activityLatLong,
+    this.updatedAt,
+    this.createdAt,
+    this.group,
+  });
 
   Attendance.fromJson(Map<String, dynamic> json) {
     late = json['late'];
@@ -67,6 +71,11 @@ class Attendance {
     }
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'];
+    if (json["group"] is List) {
+      group = (json["group"] as List).map((e) => GroupModel.fromJson(e)).toList();
+    } else {
+      group = [];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +102,10 @@ class Attendance {
     }
     data['updatedAt'] = updatedAt;
     data['createdAt'] = createdAt;
+
+    if (group != null) {
+      data['group'] = group!.map((e) => e.toJson()).toList();
+    }
     return data;
   }
 }
